@@ -1,0 +1,26 @@
+name: Validate installer
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  offline-and-compose:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Shell syntax
+        run: bash -n install.sh scripts/install-docker.sh
+      - name: Python tests (no provider credentials)
+        run: python3 -m unittest discover -s tests -v
+      - name: Generate fixture Compose (no secrets)
+        run: |
+          python3 - <<'PY'
+          import importlib.util, pathlib, json
+          p=pathlib.Path('tests/test_installer.py')
+          spec=importlib.util.spec_from_file_location('fixtures',p)
+          fixture=importlib.util.module_from_spec(spec); spec.loader.exec_module(fixture)
+          pathlib.Path('/tmp/compose.json').write_text(json.dumps(fixture.m.compose_spec(fixture.settings('/tmp/ci-runtime'))))
+          PY
+      - name: Validate with Docker Compose
+        run: docker compose -f /tmp/compose.json config --quiet
