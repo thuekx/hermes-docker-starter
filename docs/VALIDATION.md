@@ -8,8 +8,8 @@
 | Python compilation | PASS | Python 3 di lingkungan pembuatan |
 | Unit tests | PASS | 14 pengujian offline; termasuk lifecycle sukses/gagal, backup failure recovery dan secret separation |
 | Compose structure, lifecycle, secret separation | PASS offline | Fixture/mock, bukan container hidup |
-| Docker Compose `config --quiet` lokal | BELUM DIJALANKAN | Docker tidak tersedia di lingkungan pembuatan |
-| GitHub Actions | DISEDIAKAN | Workflow belum dijalankan pada repository GitHub tujuan |
+| Docker Compose `config --quiet` | PASS di CI | Berjalan pada GitHub Actions Ubuntu 24.04; Docker tidak tersedia di lingkungan pembuatan lokal |
+| GitHub Actions | PASS | [Run #1](https://github.com/thuekx/hermes-docker-starter/actions/runs/36871925625): Bash syntax, 14 tes Python, Docker Compose config |
 | Install Ubuntu 26.04 | BELUM DIUJI DI SINI | OS target, bukan klaim hasil tes mesin pengguna |
 | OpenAI OAuth inference | PERLU ACCEPTANCE USER | Tidak memakai akun/token milik author |
 | Telegram send/receive/tools | PERLU ACCEPTANCE USER | Tidak memakai bot milik author |
